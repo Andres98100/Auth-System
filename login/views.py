@@ -30,3 +30,6 @@ def login(request):
             'form': UserCreationForm(),
             'error': 'Passwords do not match'
         })
+        
+def register(request):
+    return render(request, 'register.html')

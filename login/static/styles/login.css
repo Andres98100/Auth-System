@@ -89,9 +89,10 @@ form .txt_field {
 }
 
 .pass {
-    margin: -5px 0 20px 5px;
+    display: block;
     color: #a6a6a6;
     cursor: pointer;
+    margin: -5px 0 20px 5px;
 }
 
 .pass:hover {

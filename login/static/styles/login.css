@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #283048;
+    background: -webkit-linear-gradient(to right, #859398, #283048);
+    background: linear-gradient(to right, #859398, #283048);
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 50px;
+}
+
+p {
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+}

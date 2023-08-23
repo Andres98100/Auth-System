@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, login
 from django.http import JsonResponse
 from .models import Access_Code
 import string
@@ -11,21 +10,22 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def login(request):
+def signin(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            return redirect('home')
-        else:
-            return render(request, 'login.html', {'error': 'Username or password is incorrect.'})
-    else:
-        return render(request, 'login.html')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username is not None and password is not None:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return render(request, 'login.html', {'error': 'Invalid username or password.'})
+    return render(request, 'login.html')
     
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('signin')
 
 def register(request):
     if request.method == "GET":
@@ -33,16 +33,19 @@ def register(request):
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
-                User.objects.create_user(
+                user = User.objects.create_user(
                     username=request.POST['username'],
                     email=request.POST['email'],
                     password=request.POST['password1']
-                    )
-                return redirect('login')
+                )
+                user.save()
+                login(request, user)
+                return redirect('signin')
             except User.DoesNotExist:
                 User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-                return redirect('login')
+                return redirect('signin')
 
+@login_required
 def home(request):
     if request.user.is_authenticated:
         print("Usuario autenticado:", request.user.username)

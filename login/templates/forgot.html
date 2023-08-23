@@ -1,11 +1,31 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="{% static 'styles/forgot.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
-    
+    <div class="wrapper">
+        <h1>Forgot Password</h1>
+        <h3>For my Recover your Account.</h3>
+        <form action="{% url 'forgot' %}" method="post" class="inputs">
+            {% csrf_token %}
+            <div class="field">
+                <span class="material-icons">email</span>
+                <input type="email" name="email" placeholder="Find your Email">
+            </div>
+            <button type="submit">Send</button>
+        </form>
+        <div class="link1">
+            <p>Back To <a href="/login/">Signin.</a></p>
+        </div>
+    </div>
+    <script src="{% static 'scripts/forgot.js' %}"></script>
 </body>
 </html>
